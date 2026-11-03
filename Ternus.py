@@ -40,7 +40,6 @@ RIGHT_RESPONSE = "group"
 
 
 
-
 # Experiment initialization
 exp = xpy.design.Experiment(name=EXPERIMENT_NAME, background_colour=BACKGROUND, foreground_colour=FOREGROUND)
 exp.data_variable_names = ["condition", "trial", "isi_ms", "frame_ms", "response", "group_response", "key", "rt_ms"]
@@ -85,14 +84,9 @@ fixation_cross.plot(instruction_screen)
 fixation_cross.plot(response_screen)
 
 # Preloading
-dots_frame_1.preload()
-dots_frame_2.preload()
-shapes_frame_1.preload()
-shapes_frame_2.preload()
-fixation_screen.preload()
-instruction_screen.preload()
-response_screen.preload()
-blank_screen.preload()
+
+for frame in [dots_frame_1, dots_frame_2, shapes_frame_1, shapes_frame_2, instruction_screen, response_screen, blank_screen]:
+    frame.preload()
 
 
 def create_block(condition):
@@ -112,9 +106,9 @@ def create_block(condition):
 dots_block = create_block("DOTS")
 shapes_block = create_block("SHAPES")
 
-# Exchange the block order to reduce order effects
-if exp.subject % 2 == 0:
-    exp.blocks.reverse()
+# # Exchange the block order to reduce order effects
+# if exp.subject % 2 == 0:
+#     exp.blocks.reverse()
 
 # Stimuli for DOTS trials
 for trial in dots_block.trials:
