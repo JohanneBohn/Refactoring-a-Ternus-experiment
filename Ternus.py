@@ -1,40 +1,79 @@
 import random
 import expyriment as xpy
 
+
+# Experimental variables
+EXPERIMENT_NAME = "Ternus experiment"
+
+# Visuals
+BACKGROUND = (0, 0, 0)
+FOREGROUND = (255, 255, 255)
+
+CROSS_SIZE = (20, 20)
+CROSS_WIDTH = 4
+
+CANVAS_SIZE = (600, 300)
+DOT_RADIUS = 20
+RECTANGLE_SIZE = (35, 35)
+POLYGON_SHAPE = xpy.misc.geometry.vertices_regular_polygon(3, 54)
+
+POSITION_A = (-120, -50)
+POSITION_B = (-40, -50)
+POSITION_C = (40, -50)
+POSITION_D = (120, -50)
+
+# Experimental design
+ISI_VALUES = [0, 50, 500, 1000]
+TRIALS_PER_ISI = 5
+N_REPETITIONS = 3
+
+# Timings
+FIXATION_DURATION = 200
+FRAME_DURATION = 250
+ITI = 500
+
+# Responses & response keys
+KEYS = [xpy.misc.constants.K_LEFT, xpy.misc.constants.K_RIGHT]
+LEFT_RESPONSE = "element"
+RIGHT_RESPONSE = "group"
+
+
+
 # Experiment initialization
-e = xpy.design.Experiment(name="Ternus experiment", background_colour=(0, 0, 0), foreground_colour=(255, 255, 255))
+e = xpy.design.Experiment(name=EXPERIMENT_NAME, background_colour=BACKGROUND, foreground_colour=FOREGROUND)
 e.data_variable_names = ["condition", "trial", "isi_ms", "frame_ms", "response", "group_response", "key", "rt_ms"]
 xpy.control.initialize(e)
 
-# DOTS stimuli
-screen1 = xpy.stimuli.Canvas(size=(600, 300), colour=(0, 0, 0))
-xpy.stimuli.Circle(radius=20, position=(-120, -50), colour=(255, 255, 255)).plot(screen1)
-xpy.stimuli.Circle(radius=20, position=(-40, -50), colour=(255, 255, 255)).plot(screen1)
-xpy.stimuli.Circle(radius=20, position=(40, -50), colour=(255, 255, 255)).plot(screen1)
 
-screen2 = xpy.stimuli.Canvas(size=(600, 300), colour=(0, 0, 0))
-xpy.stimuli.Circle(radius=20, position=(-40, -50), colour=(255, 255, 255)).plot(screen2)
-xpy.stimuli.Circle(radius=20, position=(40, -50), colour=(255, 255, 255)).plot(screen2)
-xpy.stimuli.Circle(radius=20, position=(120, -50), colour=(255, 255, 255)).plot(screen2)
+# DOTS stimuli
+screen1 = xpy.stimuli.Canvas(size=CANVAS_SIZE, colour=BACKGROUND)
+xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_A, colour=FOREGROUND).plot(screen1)
+xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_B, colour=FOREGROUND).plot(screen1)
+xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_C, colour=FOREGROUND).plot(screen1)
+
+screen2 = xpy.stimuli.Canvas(size=CANVAS_SIZE, colour=BACKGROUND)
+xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_B, colour=FOREGROUND).plot(screen2)
+xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_C, colour=FOREGROUND).plot(screen2)
+xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_D, colour=FOREGROUND).plot(screen2)
 
 # SHAPES stimuli
-screen3 = xpy.stimuli.Canvas(size=(600, 300), colour=(0, 0, 0))
-xpy.stimuli.Circle(radius=20, position=(-120, -50), colour=(255, 255, 255)).plot(screen3)
-xpy.stimuli.Shape(vertex_list=xpy.misc.geometry.vertices_regular_polygon(3, 54), position=(-40, -50), colour=(255, 255, 255)).plot(screen3)
-xpy.stimuli.Rectangle(size=(35, 35), position=(40, -50), colour=(255, 255, 255)).plot(screen3)
+screen3 = xpy.stimuli.Canvas(size=CANVAS_SIZE, colour=BACKGROUND)
+xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_A, colour=FOREGROUND).plot(screen3)
+xpy.stimuli.Shape(vertex_list=POLYGON_SHAPE, position=POSITION_B, colour=FOREGROUND).plot(screen3)
+xpy.stimuli.Rectangle(size=RECTANGLE_SIZE, position=POSITION_C, colour=FOREGROUND).plot(screen3)
 
-screen4 = xpy.stimuli.Canvas(size=(600, 300), colour=(0, 0, 0))
-xpy.stimuli.Shape(vertex_list=xpy.misc.geometry.vertices_regular_polygon(3, 54), position=(-40, -50), colour=(255, 255, 255)).plot(screen4)
-xpy.stimuli.Rectangle(size=(35, 35), position=(40, -50), colour=(255, 255, 255)).plot(screen4)
-xpy.stimuli.Circle(radius=20, position=(120, -50), colour=(255, 255, 255)).plot(screen4)
+screen4 = xpy.stimuli.Canvas(size=CANVAS_SIZE, colour=BACKGROUND)
+xpy.stimuli.Shape(vertex_list=POLYGON_SHAPE, position=POSITION_B, colour=FOREGROUND).plot(screen4)
+xpy.stimuli.Rectangle(size=RECTANGLE_SIZE, position=POSITION_C, colour=FOREGROUND).plot(screen4)
+xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_D, colour=FOREGROUND).plot(screen4)
 
 # Fixation cross and text screens
-thing1 = xpy.stimuli.FixCross(size=(20, 20), line_width=4, colour=(255, 255, 255))
-screen5 = xpy.stimuli.BlankScreen(colour=(0, 0, 0))
+thing1 = xpy.stimuli.FixCross(size=CROSS_SIZE, line_width=CROSS_WIDTH, colour=FOREGROUND)
+screen5 = xpy.stimuli.BlankScreen(colour=BACKGROUND)
 thing1.plot(screen5)
-text1 = xpy.stimuli.TextScreen(heading="Ternus experiment", text="Keep your eyes on the central cross.\n\nLEFT = element motion\nRIGHT = group motion\n\nPress SPACE to start.")
+text1 = xpy.stimuli.TextScreen(heading=EXPERIMENT_NAME, text="Keep your eyes on the central cross.\n\nLEFT = element motion\nRIGHT = group motion\n\nPress SPACE to start.")
 text2 = xpy.stimuli.TextScreen(heading="What did you see?", text="LEFT = element motion\nRIGHT = group motion")
-screen6 = xpy.stimuli.BlankScreen(colour=(0, 0, 0))
+screen6 = xpy.stimuli.BlankScreen(colour=BACKGROUND)
 
 # Fixation on stimulus and text screens
 thing1.plot(screen1)
@@ -57,10 +96,11 @@ screen6.preload()
 # DOTS block and trial construction
 b1 = xpy.design.Block(name="DOTS")
 b1.set_factor("condition", "DOTS")
-for v in [0, 0, 0, 0, 0, 50, 50, 50, 50, 50, 500, 500, 500, 500, 500, 1000, 1000, 1000, 1000, 1000]:
-    t = xpy.design.Trial()
-    t.set_factor("isi_ms", v)
-    b1.add_trial(t)
+for v in ISI_VALUES:
+    for _ in range(TRIALS_PER_ISI):
+        t = xpy.design.Trial()
+        t.set_factor("isi_ms", v)
+        b1.add_trial(t)
 
 # Randomization of DOTS trials
 for i in range(len(b1.trials) - 1, 0, -1):
@@ -70,10 +110,11 @@ for i in range(len(b1.trials) - 1, 0, -1):
 # SHAPES block and trial construction
 b2 = xpy.design.Block(name="SHAPES")
 b2.set_factor("condition", "SHAPES")
-for v in [0, 0, 0, 0, 0, 50, 50, 50, 50, 50, 500, 500, 500, 500, 500, 1000, 1000, 1000, 1000, 1000]:
-    t = xpy.design.Trial()
-    t.set_factor("isi_ms", v)
-    b2.add_trial(t)
+for v in ISI_VALUES:
+    for _ in range(TRIALS_PER_ISI):
+        t = xpy.design.Trial()
+        t.set_factor("isi_ms", v)
+        b2.add_trial(t)
 
 # Randomization of SHAPES trials
 for i in range(len(b2.trials) - 1, 0, -1):
@@ -116,37 +157,37 @@ for b in e.blocks:
     for t in b.trials:
         v = t.get_factor("isi_ms")
         t.stimuli[2].present()
-        e.clock.wait(200)
+        e.clock.wait(FIXATION_DURATION)
 
-        for i in range(3):
+        for i in range(N_REPETITIONS):
             t.stimuli[0].present()
-            e.clock.wait(250)
+            e.clock.wait(FRAME_DURATION)
             if v > 0:
                 t.stimuli[4].present()
                 e.clock.wait(v)
 
             t.stimuli[1].present()
-            e.clock.wait(250)
+            e.clock.wait(FRAME_DURATION)
             if v > 0:
                 t.stimuli[4].present()
                 e.clock.wait(v)
 
         # Response collection
         t.stimuli[3].present()
-        k, r = e.keyboard.wait(keys=[xpy.misc.constants.K_LEFT, xpy.misc.constants.K_RIGHT])
+        k, r = e.keyboard.wait(keys=KEYS)
 
-        if k == xpy.misc.constants.K_LEFT:
-            a = "element"
+        if k == KEYS[0]:
+            a = LEFT_RESPONSE
             g = 0
         else:
-            a = "group"
+            a = RIGHT_RESPONSE
             g = 1
 
         # Intertrial interval
         t.stimuli[5].present()
-        e.clock.wait(500)
+        e.clock.wait(ITI)
         # Data saving
-        e.data.add([b.get_factor("condition"), t.id, v, 250, a, g, k, r])
+        e.data.add([b.get_factor("condition"), t.id, v, FRAME_DURATION, a, g, k, r])
         e.data.save()
 
 # Experiment end
