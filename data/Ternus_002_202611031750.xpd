@@ -1,0 +1,61 @@
+#Expyriment 1.0.1 (Python 3.13.15), .xpd-file, coding: cp1252
+#date: Tue Nov 03 2026 17:50:52
+#--EXPERIMENT INFO
+#e mainfile: Ternus.py
+#e sha1: dcf633
+#e modules: 
+#e Experiment: Ternus experiment
+#e no between subject factors
+#e Block 0: DOTS
+#e     block factors: condition = DOTS
+#e     n trials: 20
+#e     trial factors: isi_ms = [0, 1000, 50, 500]
+#e                    
+#e Block 1: SHAPES
+#e     block factors: condition = SHAPES
+#e     n trials: 20
+#e     trial factors: isi_ms = [0, 1000, 50, 500]
+#e                    
+#--SUBJECT INFO
+#s id: 2
+subject_id,condition,trial,isi_ms,frame_ms,response,group_response,key,rt_ms
+2,SHAPES,11,500,250,group,1,1073741903,4289
+2,SHAPES,12,500,250,group,1,1073741903,1803
+2,SHAPES,2,0,250,element,0,1073741904,1240
+2,SHAPES,7,50,250,element,0,1073741904,383
+2,SHAPES,1,0,250,element,0,1073741904,599
+2,SHAPES,19,1000,250,group,1,1073741903,527
+2,SHAPES,14,500,250,group,1,1073741903,698
+2,SHAPES,8,50,250,element,0,1073741904,586
+2,SHAPES,15,1000,250,element,0,1073741904,993
+2,SHAPES,10,500,250,element,0,1073741904,279
+2,SHAPES,6,50,250,element,0,1073741904,1034
+2,SHAPES,17,1000,250,element,0,1073741904,419
+2,SHAPES,4,0,250,element,0,1073741904,466
+2,SHAPES,18,1000,250,group,1,1073741903,593
+2,SHAPES,13,500,250,element,0,1073741904,1284
+2,SHAPES,16,1000,250,element,0,1073741904,294
+2,SHAPES,5,50,250,element,0,1073741904,314
+2,SHAPES,0,0,250,element,0,1073741904,321
+2,SHAPES,9,50,250,element,0,1073741904,676
+2,SHAPES,3,0,250,element,0,1073741904,379
+2,DOTS,6,50,250,group,1,1073741903,395
+2,DOTS,13,500,250,group,1,1073741903,386
+2,DOTS,18,1000,250,group,1,1073741903,361
+2,DOTS,5,50,250,group,1,1073741903,539
+2,DOTS,19,1000,250,group,1,1073741903,338
+2,DOTS,10,500,250,group,1,1073741903,741
+2,DOTS,17,1000,250,group,1,1073741903,549
+2,DOTS,14,500,250,element,0,1073741904,491
+2,DOTS,12,500,250,element,0,1073741904,508
+2,DOTS,11,500,250,element,0,1073741904,265
+2,DOTS,7,50,250,element,0,1073741904,339
+2,DOTS,15,1000,250,element,0,1073741904,368
+2,DOTS,0,0,250,element,0,1073741904,389
+2,DOTS,4,0,250,element,0,1073741904,267
+2,DOTS,3,0,250,element,0,1073741904,366
+2,DOTS,16,1000,250,group,1,1073741903,364
+2,DOTS,1,0,250,element,0,1073741904,431
+2,DOTS,9,50,250,element,0,1073741904,511
+2,DOTS,8,50,250,element,0,1073741904,307
+2,DOTS,2,0,250,element,0,1073741904,274
