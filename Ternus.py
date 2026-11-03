@@ -117,6 +117,10 @@ for isi in ISI_VALUES:
 # Randomization of SHAPES trials
 shapes_block.shuffle_trials()
 
+# Exchange the block order to reduce order effects
+if exp.subject % 2 == 0:
+    exp.blocks.reverse()
+
 # Stimuli for DOTS trials
 for trial in dots_block.trials:
     trial.add_stimulus(dots_frame_1)
@@ -139,10 +143,6 @@ for trial in shapes_block.trials:
 exp.add_block(dots_block)
 exp.add_block(shapes_block)
 xpy.control.start(skip_ready_screen=True)
-
-# Counterbalancing
-if exp.subject % 2 == 0:
-    exp.blocks.reverse()
 
 # Instructions
 instruction_screen.present()
