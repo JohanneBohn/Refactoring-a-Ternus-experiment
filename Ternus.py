@@ -40,9 +40,9 @@ RIGHT_RESPONSE = "group"
 
 
 # Experiment initialization
-e = xpy.design.Experiment(name=EXPERIMENT_NAME, background_colour=BACKGROUND, foreground_colour=FOREGROUND)
-e.data_variable_names = ["condition", "trial", "isi_ms", "frame_ms", "response", "group_response", "key", "rt_ms"]
-xpy.control.initialize(e)
+exp = xpy.design.Experiment(name=EXPERIMENT_NAME, background_colour=BACKGROUND, foreground_colour=FOREGROUND)
+exp.data_variable_names = ["condition", "trial", "isi_ms", "frame_ms", "response", "group_response", "key", "rt_ms"]
+xpy.control.initialize(exp)
 
 
 # DOTS stimuli
@@ -94,101 +94,101 @@ text2.preload()
 screen6.preload()
 
 # DOTS block and trial construction
-b1 = xpy.design.Block(name="DOTS")
-b1.set_factor("condition", "DOTS")
-for v in ISI_VALUES:
+dots_block = xpy.design.Block(name="DOTS")
+dots_block.set_factor("condition", "DOTS")
+for isi in ISI_VALUES:
     for _ in range(TRIALS_PER_ISI):
-        t = xpy.design.Trial()
-        t.set_factor("isi_ms", v)
-        b1.add_trial(t)
+        trial = xpy.design.Trial()
+        trial.set_factor("isi_ms", isi)
+        dots_block.add_trial(trial)
 
 # Randomization of DOTS trials
-for i in range(len(b1.trials) - 1, 0, -1):
+for i in range(len(dots_block.trials) - 1, 0, -1):
     j = random.randint(0, i)
-    b1.trials[i], b1.trials[j] = b1.trials[j], b1.trials[i]
+    dots_block.trials[i], dots_block.trials[j] = dots_block.trials[j], dots_block.trials[i]
 
 # SHAPES block and trial construction
-b2 = xpy.design.Block(name="SHAPES")
-b2.set_factor("condition", "SHAPES")
-for v in ISI_VALUES:
+shapes_block = xpy.design.Block(name="SHAPES")
+shapes_block.set_factor("condition", "SHAPES")
+for isi in ISI_VALUES:
     for _ in range(TRIALS_PER_ISI):
-        t = xpy.design.Trial()
-        t.set_factor("isi_ms", v)
-        b2.add_trial(t)
+        trial = xpy.design.Trial()
+        trial.set_factor("isi_ms", isi)
+        shapes_block.add_trial(trial)
 
 # Randomization of SHAPES trials
-for i in range(len(b2.trials) - 1, 0, -1):
+for i in range(len(shapes_block.trials) - 1, 0, -1):
     j = random.randint(0, i)
-    b2.trials[i], b2.trials[j] = b2.trials[j], b2.trials[i]
+    shapes_block.trials[i], shapes_block.trials[j] = shapes_block.trials[j], shapes_block.trials[i]
 
 # Stimuli for DOTS trials
-for t in b1.trials:
-    t.add_stimulus(screen1)
-    t.add_stimulus(screen2)
-    t.add_stimulus(screen5)
-    t.add_stimulus(text2)
-    t.add_stimulus(screen5)
-    t.add_stimulus(screen6)
+for trial in dots_block.trials:
+    trial.add_stimulus(screen1)
+    trial.add_stimulus(screen2)
+    trial.add_stimulus(screen5)
+    trial.add_stimulus(text2)
+    trial.add_stimulus(screen5)
+    trial.add_stimulus(screen6)
 
 # Stimuli for SHAPES trials
-for t in b2.trials:
-    t.add_stimulus(screen3)
-    t.add_stimulus(screen4)
-    t.add_stimulus(screen5)
-    t.add_stimulus(text2)
-    t.add_stimulus(screen5)
-    t.add_stimulus(screen6)
+for trial in shapes_block.trials:
+    trial.add_stimulus(screen3)
+    trial.add_stimulus(screen4)
+    trial.add_stimulus(screen5)
+    trial.add_stimulus(text2)
+    trial.add_stimulus(screen5)
+    trial.add_stimulus(screen6)
 
 # Experiment start
-e.add_block(b1)
-e.add_block(b2)
+exp.add_block(dots_block)
+exp.add_block(shapes_block)
 xpy.control.start(skip_ready_screen=True)
 
 # Counterbalancing
-if e.subject % 2 == 0:
-    e.blocks.reverse()
+if exp.subject % 2 == 0:
+    exp.blocks.reverse()
 
 # Instructions
 text1.present()
-e.keyboard.wait(keys=[xpy.misc.constants.K_SPACE])
+exp.keyboard.wait(keys=[xpy.misc.constants.K_SPACE])
 
 # Trial presentation
-for b in e.blocks:
-    for t in b.trials:
-        v = t.get_factor("isi_ms")
-        t.stimuli[2].present()
-        e.clock.wait(FIXATION_DURATION)
+for block in exp.blocks:
+    for trial in block.trials:
+        isi = trial.get_factor("isi_ms")
+        trial.stimuli[2].present()
+        exp.clock.wait(FIXATION_DURATION)
 
         for i in range(N_REPETITIONS):
-            t.stimuli[0].present()
-            e.clock.wait(FRAME_DURATION)
-            if v > 0:
-                t.stimuli[4].present()
-                e.clock.wait(v)
+            trial.stimuli[0].present()
+            exp.clock.wait(FRAME_DURATION)
+            if isi > 0:
+                trial.stimuli[4].present()
+                exp.clock.wait(isi)
 
-            t.stimuli[1].present()
-            e.clock.wait(FRAME_DURATION)
-            if v > 0:
-                t.stimuli[4].present()
-                e.clock.wait(v)
+            trial.stimuli[1].present()
+            exp.clock.wait(FRAME_DURATION)
+            if isi > 0:
+                trial.stimuli[4].present()
+                exp.clock.wait(isi)
 
         # Response collection
-        t.stimuli[3].present()
-        k, r = e.keyboard.wait(keys=KEYS)
+        trial.stimuli[3].present()
+        key, reaction_time = exp.keyboard.wait(keys=KEYS)
 
-        if k == KEYS[0]:
-            a = LEFT_RESPONSE
-            g = 0
+        if key == KEYS[0]:
+            motion = LEFT_RESPONSE
+            group_response = 0
         else:
-            a = RIGHT_RESPONSE
-            g = 1
+            motion = RIGHT_RESPONSE
+            group_response = 1
 
         # Intertrial interval
-        t.stimuli[5].present()
-        e.clock.wait(ITI)
+        trial.stimuli[5].present()
+        exp.clock.wait(ITI)
         # Data saving
-        e.data.add([b.get_factor("condition"), t.id, v, FRAME_DURATION, a, g, k, r])
-        e.data.save()
+        exp.data.add([block.get_factor("condition"), trial.id, isi, FRAME_DURATION, motion, group_response, key, reaction_time])
+        exp.data.save()
 
 # Experiment end
 xpy.control.end()
