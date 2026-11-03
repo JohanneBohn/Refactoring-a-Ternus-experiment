@@ -7,7 +7,6 @@ e.data_variable_names = ["condition", "trial", "isi_ms", "frame_ms", "response",
 xpy.control.initialize(e)
 
 # DOTS stimuli
-list1 = []
 screen1 = xpy.stimuli.Canvas(size=(600, 300), colour=(0, 0, 0))
 xpy.stimuli.Circle(radius=20, position=(-120, -50), colour=(255, 255, 255)).plot(screen1)
 xpy.stimuli.Circle(radius=20, position=(-40, -50), colour=(255, 255, 255)).plot(screen1)
