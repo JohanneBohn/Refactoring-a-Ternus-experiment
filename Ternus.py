@@ -46,52 +46,52 @@ xpy.control.initialize(exp)
 
 
 # DOTS stimuli
-screen1 = xpy.stimuli.Canvas(size=CANVAS_SIZE, colour=BACKGROUND)
-xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_A, colour=FOREGROUND).plot(screen1)
-xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_B, colour=FOREGROUND).plot(screen1)
-xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_C, colour=FOREGROUND).plot(screen1)
+dots_frame_1 = xpy.stimuli.Canvas(size=CANVAS_SIZE, colour=BACKGROUND)
+xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_A, colour=FOREGROUND).plot(dots_frame_1)
+xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_B, colour=FOREGROUND).plot(dots_frame_1)
+xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_C, colour=FOREGROUND).plot(dots_frame_1)
 
-screen2 = xpy.stimuli.Canvas(size=CANVAS_SIZE, colour=BACKGROUND)
-xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_B, colour=FOREGROUND).plot(screen2)
-xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_C, colour=FOREGROUND).plot(screen2)
-xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_D, colour=FOREGROUND).plot(screen2)
+dots_frame_2 = xpy.stimuli.Canvas(size=CANVAS_SIZE, colour=BACKGROUND)
+xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_B, colour=FOREGROUND).plot(dots_frame_2)
+xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_C, colour=FOREGROUND).plot(dots_frame_2)
+xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_D, colour=FOREGROUND).plot(dots_frame_2)
 
 # SHAPES stimuli
-screen3 = xpy.stimuli.Canvas(size=CANVAS_SIZE, colour=BACKGROUND)
-xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_A, colour=FOREGROUND).plot(screen3)
-xpy.stimuli.Shape(vertex_list=POLYGON_SHAPE, position=POSITION_B, colour=FOREGROUND).plot(screen3)
-xpy.stimuli.Rectangle(size=RECTANGLE_SIZE, position=POSITION_C, colour=FOREGROUND).plot(screen3)
+shapes_frame_1 = xpy.stimuli.Canvas(size=CANVAS_SIZE, colour=BACKGROUND)
+xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_A, colour=FOREGROUND).plot(shapes_frame_1)
+xpy.stimuli.Shape(vertex_list=POLYGON_SHAPE, position=POSITION_B, colour=FOREGROUND).plot(shapes_frame_1)
+xpy.stimuli.Rectangle(size=RECTANGLE_SIZE, position=POSITION_C, colour=FOREGROUND).plot(shapes_frame_1)
 
-screen4 = xpy.stimuli.Canvas(size=CANVAS_SIZE, colour=BACKGROUND)
-xpy.stimuli.Shape(vertex_list=POLYGON_SHAPE, position=POSITION_B, colour=FOREGROUND).plot(screen4)
-xpy.stimuli.Rectangle(size=RECTANGLE_SIZE, position=POSITION_C, colour=FOREGROUND).plot(screen4)
-xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_D, colour=FOREGROUND).plot(screen4)
+shapes_frame_2 = xpy.stimuli.Canvas(size=CANVAS_SIZE, colour=BACKGROUND)
+xpy.stimuli.Shape(vertex_list=POLYGON_SHAPE, position=POSITION_B, colour=FOREGROUND).plot(shapes_frame_2)
+xpy.stimuli.Rectangle(size=RECTANGLE_SIZE, position=POSITION_C, colour=FOREGROUND).plot(shapes_frame_2)
+xpy.stimuli.Circle(radius=DOT_RADIUS, position=POSITION_D, colour=FOREGROUND).plot(shapes_frame_2)
 
 # Fixation cross and text screens
-thing1 = xpy.stimuli.FixCross(size=CROSS_SIZE, line_width=CROSS_WIDTH, colour=FOREGROUND)
-screen5 = xpy.stimuli.BlankScreen(colour=BACKGROUND)
-thing1.plot(screen5)
-text1 = xpy.stimuli.TextScreen(heading=EXPERIMENT_NAME, text="Keep your eyes on the central cross.\n\nLEFT = element motion\nRIGHT = group motion\n\nPress SPACE to start.")
-text2 = xpy.stimuli.TextScreen(heading="What did you see?", text="LEFT = element motion\nRIGHT = group motion")
-screen6 = xpy.stimuli.BlankScreen(colour=BACKGROUND)
+fixation_cross = xpy.stimuli.FixCross(size=CROSS_SIZE, line_width=CROSS_WIDTH, colour=FOREGROUND)
+fixation_screen = xpy.stimuli.BlankScreen(colour=BACKGROUND)
+fixation_cross.plot(fixation_screen)
+instruction_screen = xpy.stimuli.TextScreen(heading=EXPERIMENT_NAME, text="Keep your eyes on the central cross.\n\nLEFT = element motion\nRIGHT = group motion\n\nPress SPACE to start.")
+response_screen = xpy.stimuli.TextScreen(heading="What did you see?", text="LEFT = element motion\nRIGHT = group motion")
+blank_screen = xpy.stimuli.BlankScreen(colour=BACKGROUND)
 
 # Fixation on stimulus and text screens
-thing1.plot(screen1)
-thing1.plot(screen2)
-thing1.plot(screen3)
-thing1.plot(screen4)
-thing1.plot(text1)
-thing1.plot(text2)
+fixation_cross.plot(dots_frame_1)
+fixation_cross.plot(dots_frame_2)
+fixation_cross.plot(shapes_frame_1)
+fixation_cross.plot(shapes_frame_2)
+fixation_cross.plot(instruction_screen)
+fixation_cross.plot(response_screen)
 
 # Preloading
-screen1.preload()
-screen2.preload()
-screen3.preload()
-screen4.preload()
-screen5.preload()
-text1.preload()
-text2.preload()
-screen6.preload()
+dots_frame_1.preload()
+dots_frame_2.preload()
+shapes_frame_1.preload()
+shapes_frame_2.preload()
+fixation_screen.preload()
+instruction_screen.preload()
+response_screen.preload()
+blank_screen.preload()
 
 # DOTS block and trial construction
 dots_block = xpy.design.Block(name="DOTS")
@@ -119,21 +119,21 @@ shapes_block.shuffle_trials()
 
 # Stimuli for DOTS trials
 for trial in dots_block.trials:
-    trial.add_stimulus(screen1)
-    trial.add_stimulus(screen2)
-    trial.add_stimulus(screen5)
-    trial.add_stimulus(text2)
-    trial.add_stimulus(screen5)
-    trial.add_stimulus(screen6)
+    trial.add_stimulus(dots_frame_1)
+    trial.add_stimulus(dots_frame_2)
+    trial.add_stimulus(fixation_screen)
+    trial.add_stimulus(response_screen)
+    trial.add_stimulus(fixation_screen)
+    trial.add_stimulus(blank_screen)
 
 # Stimuli for SHAPES trials
 for trial in shapes_block.trials:
-    trial.add_stimulus(screen3)
-    trial.add_stimulus(screen4)
-    trial.add_stimulus(screen5)
-    trial.add_stimulus(text2)
-    trial.add_stimulus(screen5)
-    trial.add_stimulus(screen6)
+    trial.add_stimulus(shapes_frame_1)
+    trial.add_stimulus(shapes_frame_2)
+    trial.add_stimulus(fixation_screen)
+    trial.add_stimulus(response_screen)
+    trial.add_stimulus(fixation_screen)
+    trial.add_stimulus(blank_screen)
 
 # Experiment start
 exp.add_block(dots_block)
@@ -145,7 +145,7 @@ if exp.subject % 2 == 0:
     exp.blocks.reverse()
 
 # Instructions
-text1.present()
+instruction_screen.present()
 exp.keyboard.wait(keys=[xpy.misc.constants.K_SPACE])
 
 # Trial presentation
