@@ -2,6 +2,7 @@ import random
 import expyriment as xpy
 
 
+
 # Experimental variables
 EXPERIMENT_NAME = "Ternus experiment"
 
@@ -39,11 +40,11 @@ RIGHT_RESPONSE = "group"
 
 
 
+
 # Experiment initialization
 exp = xpy.design.Experiment(name=EXPERIMENT_NAME, background_colour=BACKGROUND, foreground_colour=FOREGROUND)
 exp.data_variable_names = ["condition", "trial", "isi_ms", "frame_ms", "response", "group_response", "key", "rt_ms"]
 xpy.control.initialize(exp)
-
 
 # DOTS stimuli
 dots_frame_1 = xpy.stimuli.Canvas(size=CANVAS_SIZE, colour=BACKGROUND)
@@ -93,29 +94,23 @@ instruction_screen.preload()
 response_screen.preload()
 blank_screen.preload()
 
-# DOTS block and trial construction
-dots_block = xpy.design.Block(name="DOTS")
-dots_block.set_factor("condition", "DOTS")
-for isi in ISI_VALUES:
-    for _ in range(TRIALS_PER_ISI):
-        trial = xpy.design.Trial()
-        trial.set_factor("isi_ms", isi)
-        dots_block.add_trial(trial)
 
-# Randomization of DOTS trials
-dots_block.shuffle_trials()
+def create_block(condition):
+    """
+    Creates the DOTS and SHAPES blocks.
+    """
+    block = xpy.design.Block(name = condition)
+    block.set_factor("condition", condition)
+    for isi in ISI_VALUES:
+        for _ in range(TRIALS_PER_ISI):
+            trial = xpy.design.Trial()
+            trial.set_factor("isi_ms", isi)
+            block.add_trial(trial)
+    block.shuffle_trials()
+    return block
 
-# SHAPES block and trial construction
-shapes_block = xpy.design.Block(name="SHAPES")
-shapes_block.set_factor("condition", "SHAPES")
-for isi in ISI_VALUES:
-    for _ in range(TRIALS_PER_ISI):
-        trial = xpy.design.Trial()
-        trial.set_factor("isi_ms", isi)
-        shapes_block.add_trial(trial)
-
-# Randomization of SHAPES trials
-shapes_block.shuffle_trials()
+dots_block = create_block("DOTS")
+shapes_block = create_block("SHAPES")
 
 # Exchange the block order to reduce order effects
 if exp.subject % 2 == 0:
