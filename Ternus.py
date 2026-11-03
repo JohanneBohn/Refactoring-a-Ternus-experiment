@@ -25,8 +25,8 @@ POSITION_D = (120, -50)
 
 # Experimental design
 ISI_VALUES = [0, 50, 500, 1000]
-TRIALS_PER_ISI = 5
-N_REPETITIONS = 3
+TRIALS_PER_ISI = 1
+N_REPETITIONS = 1
 
 # Timings
 FIXATION_DURATION = 200
@@ -106,27 +106,18 @@ def create_block(condition):
 dots_block = create_block("DOTS")
 shapes_block = create_block("SHAPES")
 
-# # Exchange the block order to reduce order effects
-# if exp.subject % 2 == 0:
-#     exp.blocks.reverse()
 
-# Stimuli for DOTS trials
-for trial in dots_block.trials:
-    trial.add_stimulus(dots_frame_1)
-    trial.add_stimulus(dots_frame_2)
-    trial.add_stimulus(fixation_screen)
-    trial.add_stimulus(response_screen)
-    trial.add_stimulus(fixation_screen)
-    trial.add_stimulus(blank_screen)
+def add_stimuli(block, frame_1, frame_2):
+    """
+    Adds stimuli to blocks.
+    """
+    for trial in block.trials:
+        for frame in [frame_1, frame_2, fixation_screen, response_screen, fixation_screen, blank_screen]:
+            trial.add_stimulus(frame)
 
-# Stimuli for SHAPES trials
-for trial in shapes_block.trials:
-    trial.add_stimulus(shapes_frame_1)
-    trial.add_stimulus(shapes_frame_2)
-    trial.add_stimulus(fixation_screen)
-    trial.add_stimulus(response_screen)
-    trial.add_stimulus(fixation_screen)
-    trial.add_stimulus(blank_screen)
+add_stimuli(dots_block, dots_frame_1, dots_frame_2)
+add_stimuli(shapes_block, shapes_frame_1, shapes_frame_2)
+
 
 # Experiment start
 exp.add_block(dots_block)
@@ -145,17 +136,12 @@ for block in exp.blocks:
         exp.clock.wait(FIXATION_DURATION)
 
         for i in range(N_REPETITIONS):
-            trial.stimuli[0].present()
-            exp.clock.wait(FRAME_DURATION)
-            if isi > 0:
-                trial.stimuli[4].present()
-                exp.clock.wait(isi)
-
-            trial.stimuli[1].present()
-            exp.clock.wait(FRAME_DURATION)
-            if isi > 0:
-                trial.stimuli[4].present()
-                exp.clock.wait(isi)
+            for i in [0,1]:
+                trial.stimuli[i].present()
+                exp.clock.wait(FRAME_DURATION)
+                if isi > 0:
+                    trial.stimuli[4].present()
+                    exp.clock.wait(isi)
 
         # Response collection
         trial.stimuli[3].present()
