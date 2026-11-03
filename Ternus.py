@@ -103,9 +103,7 @@ for isi in ISI_VALUES:
         dots_block.add_trial(trial)
 
 # Randomization of DOTS trials
-for i in range(len(dots_block.trials) - 1, 0, -1):
-    j = random.randint(0, i)
-    dots_block.trials[i], dots_block.trials[j] = dots_block.trials[j], dots_block.trials[i]
+dots_block.shuffle_trials()
 
 # SHAPES block and trial construction
 shapes_block = xpy.design.Block(name="SHAPES")
@@ -117,9 +115,7 @@ for isi in ISI_VALUES:
         shapes_block.add_trial(trial)
 
 # Randomization of SHAPES trials
-for i in range(len(shapes_block.trials) - 1, 0, -1):
-    j = random.randint(0, i)
-    shapes_block.trials[i], shapes_block.trials[j] = shapes_block.trials[j], shapes_block.trials[i]
+shapes_block.shuffle_trials()
 
 # Stimuli for DOTS trials
 for trial in dots_block.trials:
